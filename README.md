@@ -44,3 +44,113 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+```
+mall-frontend
+├─ .git
+│  ├─ COMMIT_EDITMSG
+│  ├─ config
+│  ├─ description
+│  ├─ FETCH_HEAD
+│  ├─ HEAD
+│  ├─ hooks
+│  │  ├─ applypatch-msg.sample
+│  │  ├─ commit-msg.sample
+│  │  ├─ fsmonitor-watchman.sample
+│  │  ├─ post-update.sample
+│  │  ├─ pre-applypatch.sample
+│  │  ├─ pre-commit.sample
+│  │  ├─ pre-merge-commit.sample
+│  │  ├─ pre-push.sample
+│  │  ├─ pre-rebase.sample
+│  │  ├─ pre-receive.sample
+│  │  ├─ prepare-commit-msg.sample
+│  │  ├─ push-to-checkout.sample
+│  │  ├─ sendemail-validate.sample
+│  │  └─ update.sample
+│  ├─ index
+│  ├─ info
+│  │  └─ exclude
+│  ├─ logs
+│  │  ├─ HEAD
+│  │  └─ refs
+│  │     └─ heads
+│  │        └─ master
+│  ├─ objects
+│  │  ├─ 03
+│  │  │  └─ 2464fb6ec40a523899b8c8a593242f3108a420
+│  │  ├─ 08
+│  │  │  └─ 0d6c77ac21bb2ef88a6992b2b73ad93daaca92
+│  │  ├─ 13
+│  │  │  └─ b31acae787d809ccb930cb109be523fd3d5d2b
+│  │  ├─ 1a
+│  │  │  └─ 9bc2e171edec5b4c5aa4c5e829cd9c21a6c444
+│  │  ├─ 2a
+│  │  │  └─ 68616d9846ed7d3bfb9f28ca1eb4d51b2c2f84
+│  │  ├─ 49
+│  │  │  └─ a2a16e0fbc7636ee16bf907257a5282b856493
+│  │  ├─ 4d
+│  │  │  └─ 29575de80483b005c29bfcac5061cd2f45313e
+│  │  ├─ 64
+│  │  │  └─ 31bc5fc6b2c932dfe5d0418fc667b86c18b9fc
+│  │  ├─ 74
+│  │  │  └─ b5e053450a48a6bdb4d71aad648e7af821975c
+│  │  ├─ 8e
+│  │  │  └─ 29b36dea7f04ae8729d8b33ecc05c3c9b0fe46
+│  │  ├─ 8f
+│  │  │  └─ 2609b7b3e0e3897ab3bcaad13caf6876e48699
+│  │  ├─ 9a
+│  │  │  └─ 8b991996e6ef28bdc9d580edd7bc952a49af7b
+│  │  ├─ 9d
+│  │  │  └─ fc1c058cebbef8b891c5062be6f31033d7d186
+│  │  ├─ a1
+│  │  │  └─ 1777cc471a4344702741ab1c8a588998b1311a
+│  │  ├─ a2
+│  │  │  ├─ 2de8b2a2798e8c495d14d9f70288794b34a51f
+│  │  │  └─ 73b0cfc0e965c35524e3cd0d3574cbe1ad2d0d
+│  │  ├─ a4
+│  │  │  └─ e47a6545bc15971f8f63fba70e4013df88a664
+│  │  ├─ a5
+│  │  │  └─ 3698aab3c66049c61980112dd0109dd2cd0845
+│  │  ├─ aa
+│  │  │  └─ 069f27cbd9d53394428171c3989fd03db73c76
+│  │  ├─ b8
+│  │  │  └─ 7cb00449efa5b6131f56b7e45cc63eddf37373
+│  │  ├─ e9
+│  │  │  └─ e57dc4d41b9b46e05112e9f45b7ea6ac0ba15e
+│  │  ├─ ec
+│  │  │  └─ 2585e8c0bb8188184ed1e0703c4c8f2a8419b0
+│  │  ├─ ef
+│  │  │  └─ a75c114edbc6055798a9e5ef5f36793eb29e23
+│  │  ├─ fc
+│  │  │  └─ 44b0a3796c0e0a64c3d858ca038bd4570465d9
+│  │  ├─ info
+│  │  └─ pack
+│  └─ refs
+│     ├─ heads
+│     │  └─ master
+│     └─ tags
+├─ .gitignore
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ favicon.ico
+│  ├─ index.html
+│  ├─ logo192.png
+│  ├─ logo512.png
+│  ├─ manifest.json
+│  └─ robots.txt
+├─ README.md
+├─ src
+│  ├─ App.css
+│  ├─ App.test.tsx
+│  ├─ App.tsx
+│  ├─ index.css
+│  ├─ index.tsx
+│  ├─ logo.svg
+│  ├─ react-app-env.d.ts
+│  ├─ reportWebVitals.ts
+│  └─ setupTests.ts
+└─ tsconfig.json
+
+```
