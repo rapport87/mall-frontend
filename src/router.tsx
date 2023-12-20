@@ -3,6 +3,9 @@ import Root from "./components/Root"
 import NotFound from "./routes/NotFound";
 import Home from "./routes/Home";
 import ProductDetail from "./routes/ProductDetail";
+import KakaoConfirm from "./routes/KakaoConfirm";
+import Order from "./routes/Order";
+import OrderDetail from "./routes/OrderDetail";
 
 const router = createBrowserRouter([
     {
@@ -11,13 +14,30 @@ const router = createBrowserRouter([
         errorElement:<NotFound/>,
         children:[
             {
-                path: "home",
+                path: "",
                 element: <Home />
             },            
             {
                 path: "products/:productPk",
                 element: <ProductDetail />
-            }
+            },
+            {
+                path: "order/:username/:order_id",
+                element: <OrderDetail />
+            },            
+            {
+                path: "order/:username",
+                element: <Order />,
+            },
+            {
+                path: "social",
+                children:[
+                    {
+                        path:"kakao",
+                        element: <KakaoConfirm />,
+                    }
+                ]
+            }            
         ]
     },
 ]);

@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export default function NotFound(){
     return (
         <VStack>
-            <Heading>Page not found</Heading>
-            <Text>It seems that you're lost</Text>
+            <Heading>페이지를 찾을 수 없습니다</Heading>
+            <Text>홈으로 돌아가세요</Text>
             <Link to="/">
-                <Button>Go Home</Button>
+                <Button>홈으로 돌아가기</Button>
             </Link>
         </VStack>
     );
