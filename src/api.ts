@@ -148,7 +148,8 @@ export const createOrder = async (orderData: {
   recipient_tel: string;
   address: string;
   address_detail: string;
-  zip_code: string;
+  zip_code: number;
+  order_request: string;
 }) => {
   try {
     const response = await instance.post("orders/create/", orderData, {
@@ -162,4 +163,3 @@ export const createOrder = async (orderData: {
     throw error; 
   }
 };    
-
