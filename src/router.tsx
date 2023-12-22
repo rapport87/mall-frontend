@@ -5,7 +5,8 @@ import Home from "./routes/Home";
 import ProductDetail from "./routes/ProductDetail";
 import KakaoConfirm from "./routes/KakaoConfirm";
 import Order from "./routes/Order";
-import OrderDetail from "./routes/OrderDetail";
+import OrderHistory from "./routes/OrderHistory";
+import OrderHistoryDetail from "./routes/OrderHistoryDetail";
 
 const router = createBrowserRouter([
     {
@@ -23,11 +24,15 @@ const router = createBrowserRouter([
             },
             {
                 path: "order/:username/:order_id",
-                element: <OrderDetail />
+                element: <OrderHistoryDetail />
+            },            
+            {
+                path: "/order",
+                element: <Order />, // '/order' 경로에 대한 정의
             },            
             {
                 path: "order/:username",
-                element: <Order />,
+                element: <OrderHistory />,
             },
             {
                 path: "social",

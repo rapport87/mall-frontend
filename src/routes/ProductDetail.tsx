@@ -4,6 +4,7 @@ import { getProductDetail } from "../api";
 import { IProductDetail } from "../types";
 import { useParams } from "react-router-dom";
 import { Box, Grid, Image, VStack, useColorModeValue, Text, Button, HStack, Center, Spinner, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Divider, Alert, AlertIcon } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetail() {
     const { productPk } = useParams();
@@ -14,6 +15,10 @@ export default function ProductDetail() {
 
     const [selectedImage, setSelectedImage] = useState<string | undefined>();
     const [quantity, setQuantity] = useState(1); // 수량 상태
+    const navigate = useNavigate();
+    const handlePurchaseClick = () => {
+        navigate('/order', { state: { product: data, quantity: quantity } });
+      };
 
     // 데이터가 로드되었을 때 메인 이미지를 선택합니다.
     useEffect(() => {
@@ -116,7 +121,9 @@ export default function ProductDetail() {
                                 </NumberInputStepper>
                                 </NumberInput>
                                 <Button flex={1} variant="outline" colorScheme="blue" color="blue.500" isDisabled={isOutOfStock}>장바구니</Button>
-                                <Button flex={1} colorScheme="blue" isDisabled={isOutOfStock}>{isOutOfStock ? '품절' : '구매하기'}</Button>
+                                <Button colorScheme="blue" onClick={handlePurchaseClick} isDisabled={isOutOfStock}>
+                                    {isOutOfStock ? '품절' : '구매하기'}
+                                </Button>                                
                             </HStack>  
                         </VStack>                    
                     </VStack>         

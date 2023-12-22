@@ -20,7 +20,7 @@ export interface IProductList {
     detailed_description : string;
   }
 
-  export interface IOrderList {
+  export interface IOrderHistoryList {
     username:string;
     order_id: number;
     sale_price: number;
@@ -31,7 +31,7 @@ export interface IProductList {
     order_items: IOrderProducts[];
   }
 
-  export interface IOrderProducts{
+  export interface IOrderHistoryProducts{
     product_id : number;
     product_name : string;
     sale_price : number;
@@ -40,7 +40,16 @@ export interface IProductList {
   }
 
   export interface IUser {
+    id : number;
     username: string;
     email: string;
     name: string;
   }
+
+  export interface IReceiverInfoProps {
+    recipientName: string;
+    recipientContact: string;
+    address: string;
+    addressDetail: string;
+    zipCode: string;
+  }  

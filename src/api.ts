@@ -26,7 +26,7 @@ export const getProductDetail = async ({ queryKey }: QueryFunctionContext) => {
   }
 };
 
-export const getOrders = async ({ queryKey }: QueryFunctionContext) => {
+export const getOrderHistory = async ({ queryKey }: QueryFunctionContext) => {
   const [_, username] = queryKey;
   try {
     const response = await instance.get(`orders/${username}`);
@@ -37,7 +37,7 @@ export const getOrders = async ({ queryKey }: QueryFunctionContext) => {
 };
 
 
-export const getOrderDetail = async ({ queryKey }: QueryFunctionContext) => {
+export const getOrderHistoryDetail = async ({ queryKey }: QueryFunctionContext) => {
   const [_, username, order_id] = queryKey;
   try {
     const response = await instance.get(`orders/${username}/${order_id}`);
@@ -112,3 +112,25 @@ export const usernameLogIn = ({
       }
     )
     .then((response) => response.data);
+
+export const createOrder = async (orderData: {
+  user_id: number;
+  username: string;
+  recipient_name: string;
+  recipient_tel: string;
+  address: string;
+  address_detail: string;
+  zip_code: string;
+}) => {
+  try {
+    const response = await instance.post("orders/create/", orderData, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating order:", error);
+    throw error; 
+  }
+};    

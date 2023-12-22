@@ -15,13 +15,13 @@ import {
   HStack,
   Text,
 } from '@chakra-ui/react';
-import { getOrderDetail } from '../api';
-import { IOrderProducts } from '../types';
+import { getOrderHistoryDetail } from '../api';
+import { IOrderHistoryProducts } from '../types';
 import { useParams } from "react-router-dom";
 
-function OrderDetail() {
+function OrderHistoryDetail() {
   const { username, order_id } = useParams();
-  const { data: orderItems, isLoading, error } = useQuery<IOrderProducts[], Error>(['orderDetail', username, order_id], getOrderDetail);
+  const { data: orderItems, isLoading, error } = useQuery<IOrderHistoryProducts[], Error>(['orderDetail', username, order_id], getOrderHistoryDetail);
 
   if (isLoading) return <Box>Loading...</Box>;
 
@@ -65,4 +65,4 @@ function OrderDetail() {
   );
 }
 
-export default OrderDetail;
+export default OrderHistoryDetail;
