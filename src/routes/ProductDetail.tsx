@@ -50,7 +50,7 @@ export default function ProductDetail() {
             <VStack maxWidth="1000px" w="full" gap={6}>
                 <Grid
                     templateColumns={{ base: "1fr", md: "3fr 2fr" }}
-                    maxWidth="1200px"
+                    maxWidth="1000px"
                     gap={6}
                 >
                     <Box>

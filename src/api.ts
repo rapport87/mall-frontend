@@ -56,6 +56,51 @@ export const getProfile = async () => {
   }
 };
 
+export interface IuserSignUpProp{
+  name : string;
+  email : string;
+  username : string;
+  password : string;
+};
+
+export const userSignUp = async ({
+  name,
+  email,
+  username,
+  password,
+}:IuserSignUpProp) => {
+  try {
+    const response = await instance.post(
+      `/users/signup`, 
+    { name, email, username, password }, 
+    {
+      headers: {
+        "X-CSRFToken" : Cookie.get("csrftoken") || "",
+      },
+    });
+    return response.data;
+  } catch (error){
+    console.error("Error during Sign up:", error);
+  }
+}
+    
+  export const kakaoLogin = async (code: string) => {
+    try {
+      const response = await instance.post(
+        `/users/kakao`,
+        { code },
+        {
+          headers: {
+            "X-CSRFToken": Cookie.get("csrftoken") || "",
+          },
+        }
+      );
+      return response.status;
+    } catch (error) {
+      console.error("Error during Kakao login:", error);
+    }
+  };
+
 export const logOut = async () => {
   try {
     const response = await instance.post(`users/log-out`, null, {
@@ -66,23 +111,6 @@ export const logOut = async () => {
     return response.data;
   } catch (error) {
     console.error("Error during log out:", error);
-  }
-};
-
-export const kakaoLogin = async (code: string) => {
-  try {
-    const response = await instance.post(
-      `/users/kakao`,
-      { code },
-      {
-        headers: {
-          "X-CSRFToken": Cookie.get("csrftoken") || "",
-        },
-      }
-    );
-    return response.status;
-  } catch (error) {
-    console.error("Error during Kakao login:", error);
   }
 };
 
@@ -134,3 +162,4 @@ export const createOrder = async (orderData: {
     throw error; 
   }
 };    
+
