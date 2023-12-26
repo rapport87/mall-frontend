@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, VStack, RadioGroup, Radio, Text, FormControl, FormLabel, Input, Image, InputGroup, InputLeftAddon, Center } from "@chakra-ui/react";
 import { useLocation } from 'react-router-dom';
 import { IProductDetail } from '../types'; // 상품 타입 import
@@ -20,11 +20,32 @@ interface ICreateOrderForm{
 }
 
 export default function Order() {
+
+  const inputAddonWidth = "100px";
+  const { user } = useUser();  
+  const location = useLocation();
+  const product: IProductDetail = location.state?.product;
+  const quantity = location.state?.quantity || 1; // 기본값 1
+  
+  // 상품 가격 계산
+  const productPrice = (product?.sale_price || 0) * quantity;
+  const shippingFee = 3000; // 배송비
+  const totalAmount = productPrice + shippingFee;  
+
   const { 
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ICreateOrderForm>();
+
+  useEffect(() => {
+    reset({
+      user_id: user?.id || 999999999,
+      username: user?.username || 'nothing',
+      // 기타 필요한 기본값들...
+    });
+  }, [user, reset]);  
 
 const mutation = useMutation(createOrder, {
       onMutate: () => {
@@ -48,20 +69,17 @@ function onOrderSubmit({
   zip_code,
   order_request,
 }: ICreateOrderForm){
+  const orderItem = {
+    product_id: location.state.product?.id,
+    product_name: product?.name,
+    sale_price: product?.sale_price,
+    quantity: quantity,
+    thumbnail: product?.thumbnail,
+  };
+
   console.log(user_id, username, recipient_name, recipient_tel);
-  mutation.mutate({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, });
+  mutation.mutate({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, order_items: [orderItem],});
 }
-
-  const inputAddonWidth = "100px";
-  const { user } = useUser();  
-  const location = useLocation();
-  const product: IProductDetail = location.state?.product;
-  const quantity = location.state?.quantity || 1; // 기본값 1
-
-  // 상품 가격 계산
-  const productPrice = (product?.sale_price || 0) * quantity;
-  const shippingFee = 3000; // 배송비
-  const totalAmount = productPrice + shippingFee;
 
 
   return (
@@ -77,21 +95,6 @@ function onOrderSubmit({
             type="hidden" 
             value={user?.name}
             {...register("username")} />
-
-            {/* <InputGroup>
-              <InputLeftAddon children="ID" width={inputAddonWidth} />
-              <Input 
-              type="text" 
-              value={user?.id}
-              {...register("user_id")} />
-            </InputGroup>
-            <InputGroup>
-              <InputLeftAddon children="name" width={inputAddonWidth} />
-              <Input 
-              type="text" 
-              value={user?.name}
-              {...register("username")} />
-            </InputGroup>             */}
 
             <FormLabel>받는분 정보</FormLabel>
             <InputGroup>

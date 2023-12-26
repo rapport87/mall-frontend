@@ -141,6 +141,14 @@ export const usernameLogIn = ({
     )
     .then((response) => response.data);
 
+export interface IOrderItem {
+  product_id: number;
+  product_name: string;
+  sale_price: number;
+  quantity: number;
+  thumbnail: string;
+}
+
 export const createOrder = async (orderData: {
   user_id: number;
   username: string;
@@ -150,6 +158,7 @@ export const createOrder = async (orderData: {
   address_detail: string;
   zip_code: number;
   order_request: string;
+  order_items:  IOrderItem[];
 }) => {
   try {
     const response = await instance.post("orders/create/", orderData, {
@@ -163,3 +172,13 @@ export const createOrder = async (orderData: {
     throw error; 
   }
 };    
+
+export const getCarts = async () => {
+  try {
+    const response = await instance.get("carts/");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching carts:", error);
+  }
+};
+

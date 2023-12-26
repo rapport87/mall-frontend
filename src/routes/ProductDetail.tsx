@@ -18,7 +18,7 @@ export default function ProductDetail() {
     const navigate = useNavigate();
     const handlePurchaseClick = () => {
         navigate('/order', { state: { product: data, quantity: quantity } });
-      };
+    };
 
     // 데이터가 로드되었을 때 메인 이미지를 선택합니다.
     useEffect(() => {

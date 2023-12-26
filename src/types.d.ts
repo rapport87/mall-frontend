@@ -28,7 +28,7 @@ export interface IProductList {
     first_product_thumbnail: string;
     total_product_price: number;
     created_at: string; 
-    order_items: IOrderProducts[];
+    order_items: IOrderHistoryProducts[];
   }
 
   export interface IOrderHistoryProducts{
