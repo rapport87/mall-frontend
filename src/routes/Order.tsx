@@ -26,7 +26,7 @@ export default function Order() {
   const location = useLocation();
   const product: IProductDetail = location.state?.product;
   const quantity = location.state?.quantity || 1; // 기본값 1
-  
+  console.log(product);
   // 상품 가격 계산
   const productPrice = (product?.sale_price || 0) * quantity;
   const shippingFee = 3000; // 배송비

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from "@tanstack/react-query";
-import { getProductDetail } from "../api";
+import { getProductDetail, addToCart as addToCartAPI } from "../api";
 import { IProductDetail } from "../types";
 import { useParams } from "react-router-dom";
 import { Box, Grid, Image, VStack, useColorModeValue, Text, Button, HStack, Center, Spinner, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Divider, Alert, AlertIcon } from "@chakra-ui/react";
@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetail() {
     const { productPk } = useParams();
+    const productPkNumber = productPk ? parseInt(productPk) : null; // productPk를 숫자로 변환
+
     const { isLoading, data } = useQuery<IProductDetail>({
-        queryKey: ["products", productPk],
+        queryKey: ["products", productPkNumber],
         queryFn: getProductDetail,
     });
 
@@ -44,6 +46,23 @@ export default function ProductDetail() {
     const formatPrice = (price: number) => {
       return new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(price);
     };
+
+    const addToCart = async () => {
+        if (productPkNumber === null) {
+            console.error("Invalid product ID");
+            return;
+        }
+
+        try {
+            const response = await addToCartAPI(productPkNumber, quantity);
+            console.log("장바구니에 추가됨:", response);
+            // ... 나머지 코드 ...
+        } catch (error) {
+            console.error("장바구니에 추가하는데 실패했습니다.", error);
+            // ... 나머지 코드 ...
+        }
+    };
+
 
     return (
         <Center mt={10}>
@@ -120,8 +139,22 @@ export default function ProductDetail() {
                                     <NumberDecrementStepper />
                                 </NumberInputStepper>
                                 </NumberInput>
-                                <Button flex={1} variant="outline" colorScheme="blue" color="blue.500" isDisabled={isOutOfStock}>장바구니</Button>
-                                <Button colorScheme="blue" onClick={handlePurchaseClick} isDisabled={isOutOfStock}>
+                                <Button 
+                                flex={1} 
+                                variant="outline" 
+                                colorScheme="blue" 
+                                color="blue.500" 
+                                onClick={addToCart} 
+                                isDisabled={isOutOfStock}
+                                w="full">                                   
+                                장바구니
+                                </Button>
+                                <Button 
+                                colorScheme="blue" 
+                                onClick={handlePurchaseClick} 
+                                isDisabled={isOutOfStock} 
+                                flex={1} 
+                                w="full">
                                     {isOutOfStock ? '품절' : '구매하기'}
                                 </Button>                                
                             </HStack>  

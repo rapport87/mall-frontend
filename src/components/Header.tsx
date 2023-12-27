@@ -88,6 +88,7 @@ export default function Header() {
                 <Avatar name={user?.name} size={"md"} />
               </MenuButton>
               <MenuList>
+                <MenuItem as={Link} to={`/cart/`}>장바구니</MenuItem>
                 <MenuItem as={Link} to={`/order/${user?.username}`}>주문내역</MenuItem>
                 <MenuItem onClick={onLogOut}>로그아웃</MenuItem>
               </MenuList>

@@ -182,3 +182,60 @@ export const getCarts = async () => {
   }
 };
 
+export const addToCart = async (productPk: number, quantity: number) => {
+  try {
+    const response = await instance.post("carts/", {
+      product_id: productPk,
+      quantity: quantity
+    }, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      }
+    });
+    alert("상품이 장바구니에 추가되었습니다");
+    return response.data;
+  } catch (error) {
+    // AxiosError 타입으로 타입 가드를 사용
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 400) {
+        alert(error.response.data.message);
+      } else {
+        // 기타 HTTP 오류 처리
+        console.error("Error adding to cart:", error.response);
+      }
+    } else {
+      // Axios 오류가 아닌 기타 오류 처리
+      console.error("Error adding to cart:", error);
+    }
+    throw error;
+  }
+};
+
+export const deleteCartItem = async (cartItemId: number) => {
+  try {
+    const response = await instance.delete(`carts/${cartItemId}/`, {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      }
+    });
+    alert("상품이 장바구니에서 삭제되었습니다");
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting cart item:", error);
+    throw error;
+  }
+};
+
+
+export const clearCart = async () => {
+  try {
+    await instance.delete("carts/", {
+      headers: {
+        "X-CSRFToken": Cookie.get("csrftoken") || "",
+      }
+    });
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    throw error;
+  }
+};

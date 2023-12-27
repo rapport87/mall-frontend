@@ -53,3 +53,17 @@ export interface IProductList {
     addressDetail: string;
     zipCode: string;
   }  
+
+  export interface ICartProduct {
+    id: number;
+    name: string;
+    price: number;
+    sale_price: number;
+    thumbnail: string;
+  }
+  
+  export interface ICartList {
+    id: number;
+    product: ICartProduct;
+    quantity: number;
+  }

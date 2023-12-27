@@ -7,6 +7,7 @@ import KakaoConfirm from "./routes/KakaoConfirm";
 import Order from "./routes/Order";
 import OrderHistory from "./routes/OrderHistory";
 import OrderHistoryDetail from "./routes/OrderHistoryDetail";
+import Cart from "./routes/Cart";
 
 const router = createBrowserRouter([
     {
@@ -25,10 +26,14 @@ const router = createBrowserRouter([
             {
                 path: "order/:username/:order_id",
                 element: <OrderHistoryDetail />
-            },            
+            },
+            {
+                path: "cart",
+                element: <Cart />,
+            },               
             {
                 path: "/order",
-                element: <Order />, // '/order' 경로에 대한 정의
+                element: <Order />,
             },            
             {
                 path: "order/:username",
