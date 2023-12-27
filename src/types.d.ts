@@ -1,5 +1,6 @@
 export interface IProductList {
     pk : number;
+    id : number;
     name : string;
     price : number;
     sale_price : number;

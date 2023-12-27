@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Box, Button, VStack, RadioGroup, Radio, Text, FormControl, FormLabel, Input, Image, InputGroup, InputLeftAddon, Center } from "@chakra-ui/react";
-import { useLocation } from 'react-router-dom';
+import { Box, Button, VStack, RadioGroup, Radio, Text, FormControl, FormLabel, Input, Image, InputGroup, InputLeftAddon, Center, Table, Tr, Th, Thead, Tbody, Td, HStack, Flex, Divider } from "@chakra-ui/react";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IProductDetail } from '../types'; // 상품 타입 import
 import useUser from '../lib/useUser';
-import { createOrder } from "../api"
+import { createOrder, clearCart } from "../api"
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -19,18 +19,23 @@ interface ICreateOrderForm{
   order_request : string;
 }
 
-export default function Order() {
+interface IProductInOrder extends IProductDetail {
+  quantity: number;
+}
 
+export default function Order() {
+  const navigate = useNavigate(); 
   const inputAddonWidth = "100px";
   const { user } = useUser();  
   const location = useLocation();
-  const product: IProductDetail = location.state?.product;
-  const quantity = location.state?.quantity || 1; // 기본값 1
-  console.log(product);
+
+  const products: IProductInOrder[] = location.state?.product || [];
+  const fromCart: boolean = location.state?.fromCart || false;
+
   // 상품 가격 계산
-  const productPrice = (product?.sale_price || 0) * quantity;
+  const productPrice = products.reduce((total: number, product: IProductInOrder) => total + (product.sale_price || 0) * product.quantity, 0);
   const shippingFee = 3000; // 배송비
-  const totalAmount = productPrice + shippingFee;  
+  const totalAmount = productPrice + shippingFee;
 
   const { 
     register,
@@ -54,31 +59,34 @@ const mutation = useMutation(createOrder, {
       onError: (error: AxiosError) =>{
         console.log(`error occurred ${error.response?.data}`);
       },
-      onSuccess: () => {
-        console.log(`Success Query`);
+      onSuccess: async () => {
+        alert("주문이 완료되었습니다"); 
+
+        if (fromCart) {
+          try {
+            // 장바구니 주문시 장바구니 삭제
+            await clearCart();
+            
+          } catch (error) {
+            console.error("Failed to clear cart:", error);
+          }
+        }
+
+        navigate('/');
       }
   });
 
-function onOrderSubmit({
-  user_id,
-  username,
-  recipient_name,
-  recipient_tel,
-  address,
-  address_detail,
-  zip_code,
-  order_request,
-}: ICreateOrderForm){
-  const orderItem = {
-    product_id: location.state.product?.id,
-    product_name: product?.name,
-    sale_price: product?.sale_price,
-    quantity: quantity,
-    thumbnail: product?.thumbnail,
-  };
+  function onOrderSubmit({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request }: ICreateOrderForm) {
+  const orderItems = products.map(product => ({
+    product_id: product.id,
+    product_name: product.name,
+    sale_price: product.sale_price,
+    quantity: product.quantity,
+    thumbnail: product.thumbnail,
+  }));
 
-  console.log(user_id, username, recipient_name, recipient_tel);
-  mutation.mutate({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, order_items: [orderItem],});
+  // console.log("orderItem : " + orderItems);
+  mutation.mutate({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, order_items: orderItems });
 }
 
 
@@ -96,7 +104,52 @@ function onOrderSubmit({
             value={user?.name}
             {...register("username")} />
 
-            <FormLabel>받는분 정보</FormLabel>
+        <Box width="full">
+          <FormLabel fontSize={'x-large'}>주문상품</FormLabel>
+          <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>상품명</Th>
+                  <Th>가격</Th>
+                  <Th>수량</Th>
+                  <Th>합계</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {products.map((product, index) => (
+                  <Tr key={index}>
+                    <Td>
+                      <HStack>
+                        <Image src={product.thumbnail} alt={product.name} boxSize="50px" />
+                        <Text>{product.name}</Text>
+                      </HStack>
+                    </Td>
+                    <Td>{product.sale_price?.toLocaleString()}원</Td>
+                    <Td>{product.quantity}</Td>
+                    <Td>{(product.sale_price * product.quantity).toLocaleString()}원</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+            <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+          </Box>
+          <Box width="full">
+            <HStack spacing={10} justifyContent="space-between">
+            <Box width="full" textAlign="right">
+              <Flex justifyContent="flex-end" alignItems="center">
+                <Text>상품금액: {productPrice?.toLocaleString()}원</Text>
+                <Text mx={2}>+</Text>
+                <Text>배송비: {shippingFee.toLocaleString()}원</Text>
+                <Text mx={2}>=</Text>
+                <Text>결제예정금액: {totalAmount.toLocaleString()}원</Text>
+              </Flex>
+            </Box>
+            </HStack>
+          </Box>
+
+          <FormLabel mt={"10"} fontSize={'x-large'}>받는분 정보</FormLabel>
+            <Divider mb={"3"} sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
             <InputGroup>
               <InputLeftAddon children="이름" width={inputAddonWidth} />
               <Input 
@@ -140,39 +193,21 @@ function onOrderSubmit({
             </InputGroup>            
           </FormControl>
         </Box>
-        <Box>
-          <Text fontSize="lg">주문상품</Text>
-          {product ? (
-            <Box>
-              <Text>{product.name}</Text>
-              <Image src={product.thumbnail} alt={product.name} />
-              {/* 추가적인 상품 정보 표시 */}
-            </Box>
-          ) : (
-            <Text>No product selected</Text>
-          )}
-        </Box>
-        <Box>
-          <Text fontSize="lg">결제금액</Text>
-          <Text>상품금액: {productPrice?.toLocaleString()}원</Text>
-          <Text>배송비: {shippingFee.toLocaleString()}원</Text>
-          <Text>결제예정금액: {totalAmount.toLocaleString()}원</Text>
-        </Box>        
-        <Box>
-          <Text fontSize="lg" mb={2}>결제방법</Text>
-          <RadioGroup defaultValue="bankTransfer">
+        <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+
+
+
+        <Box mt={"10"} w="full">
+          <FormLabel fontSize={'x-large'}>결제방법</FormLabel>
+          <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+          <RadioGroup mt={"3"} defaultValue="bankTransfer">
             <Radio value="bankTransfer">무통장입금</Radio>
-            <Radio value="creditCard">신용카드</Radio>
-            <Radio value="samsungPay">삼성페이</Radio>
+            <Radio ml={"5"} value="creditCard">신용카드</Radio>
+            <Radio ml={"5"} value="samsungPay">삼성페이</Radio>
           </RadioGroup>
         </Box>
-
-        <Button 
-        colorScheme="red" 
-        size="lg"
-        isLoading={mutation.isLoading}
-        type="submit"
-        >
+                
+        <Button colorScheme="red" size="lg" isLoading={mutation.isLoading} type="submit">
           {totalAmount.toLocaleString()}원 결제하기
         </Button>
       </VStack>

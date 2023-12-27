@@ -25,7 +25,17 @@ function Cart() {
     const { data: carts, isLoading, error, refetch } = useQuery<ICartList[], Error>(['carts'], getCarts);
     const navigate = useNavigate();
     const handlePurchase = () => {
-      navigate('/order', { state: { product: carts } });
+      const orderData = (carts || []).map(cartItem => ({
+        cart_id: cartItem.id, // 장바구니 아이템의 고유 ID
+        id: cartItem.product.id,
+        name: cartItem.product.name,
+        price: cartItem.product.price,
+        sale_price: cartItem.product.sale_price,
+        thumbnail: cartItem.product.thumbnail,
+        quantity: cartItem.quantity
+      }));
+  
+      navigate('/order', { state: { product: orderData, fromCart: true } });
     };
 
     const handleDelete = async (cartItemId: number) => {

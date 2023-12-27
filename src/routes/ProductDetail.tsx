@@ -19,8 +19,22 @@ export default function ProductDetail() {
     const [quantity, setQuantity] = useState(1); // 수량 상태
     const navigate = useNavigate();
     const handlePurchaseClick = () => {
-        navigate('/order', { state: { product: data, quantity: quantity } });
-    };
+        if (data) {
+          navigate('/order', {
+            state: {
+              product: [{
+                id: productPkNumber,
+                name: data.name,
+                price: data.price,
+                sale_price: data.sale_price,
+                thumbnail: data.thumbnail,
+                quantity: quantity, // 현재 선택된 수량
+                // 필요한 나머지 상품 정보 추가
+              }]
+            }
+          });
+        }
+      };
 
     // 데이터가 로드되었을 때 메인 이미지를 선택합니다.
     useEffect(() => {
