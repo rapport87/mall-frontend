@@ -103,10 +103,12 @@ function Cart() {
             ))}
           </Tbody>
         </Table>
-        <HStack width="full">
-          <Button colorScheme="blue" w="full" onClick={handlePurchase}>구매하기</Button>
-          <Button colorScheme="red" w="full" onClick={handleClearCart}>장바구니 비우기</Button>
-        </HStack>
+        <Center>
+          <HStack w="full">
+            <Button colorScheme="blue" w="full" onClick={handlePurchase}>구매하기</Button>
+            <Button colorScheme="red" w="full" onClick={handleClearCart}>장바구니 비우기</Button>
+          </HStack>
+        </Center>
       </VStack>
     </Center>
   );
