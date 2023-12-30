@@ -17,6 +17,8 @@ interface ICreateOrderForm{
   address_detail : string;
   zip_code : number;
   order_request : string;
+  payment : number;
+  shipping_fee : number;
 }
 
 interface IProductInOrder extends IProductDetail {
@@ -34,8 +36,10 @@ export default function Order() {
 
   // 상품 가격 계산
   const productPrice = products.reduce((total: number, product: IProductInOrder) => total + (product.sale_price || 0) * product.quantity, 0);
-  const shippingFee = 3000; // 배송비
+  const shippingFee = products.reduce((maxFee, item) => {return item.shipping_fee > maxFee ? item.shipping_fee : maxFee;}, 0) || 0;
   const totalAmount = productPrice + shippingFee;
+
+  console.log("fee = " + shippingFee);
 
   const { 
     register,
@@ -48,7 +52,6 @@ export default function Order() {
     reset({
       user_id: user?.id || 999999999,
       username: user?.username || 'nothing',
-      // 기타 필요한 기본값들...
     });
   }, [user, reset]);  
 
@@ -76,7 +79,7 @@ const mutation = useMutation(createOrder, {
       }
   });
 
-  function onOrderSubmit({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request }: ICreateOrderForm) {
+  function onOrderSubmit({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, payment }: ICreateOrderForm) {
   const orderItems = products.map(product => ({
     product_id: product.id,
     product_name: product.name,
@@ -86,7 +89,7 @@ const mutation = useMutation(createOrder, {
   }));
 
   // console.log("orderItem : " + orderItems);
-  mutation.mutate({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, order_items: orderItems });
+  mutation.mutate({ user_id, username, recipient_name, recipient_tel, address, address_detail, zip_code, order_request, order_items: orderItems, payment, shipping_fee : shippingFee});
 }
 
 
@@ -191,21 +194,22 @@ const mutation = useMutation(createOrder, {
               {...register("order_request")}
               />
             </InputGroup>            
+            <Box mt={"10"} w="full">
+              <FormLabel fontSize={'x-large'}>결제방법</FormLabel>
+              <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+              <RadioGroup name="payment" mt={"3"} defaultValue="bankTransfer">
+                <Radio {...register("payment")} value="1">무통장입금</Radio>
+                <Radio {...register("payment")} ml={"5"} value="2">신용카드</Radio>
+                <Radio {...register("payment")} ml={"5"} value="3">삼성페이</Radio>
+              </RadioGroup>
+            </Box>            
           </FormControl>
         </Box>
         <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
 
 
 
-        <Box mt={"10"} w="full">
-          <FormLabel fontSize={'x-large'}>결제방법</FormLabel>
-          <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
-          <RadioGroup mt={"3"} defaultValue="bankTransfer">
-            <Radio value="bankTransfer">무통장입금</Radio>
-            <Radio ml={"5"} value="creditCard">신용카드</Radio>
-            <Radio ml={"5"} value="samsungPay">삼성페이</Radio>
-          </RadioGroup>
-        </Box>
+
                 
         <Button colorScheme="red" size="lg" isLoading={mutation.isLoading} type="submit">
           {totalAmount.toLocaleString()}원 결제하기

@@ -61,7 +61,7 @@ function OrderHistory() {
                   </HStack>
                   </Link>
                 </Td>
-                <Td textAlign="right">{formatPrice(order.total_product_price)}원</Td>
+                <Td textAlign="right">{formatPrice(order.total_product_price+order.shipping_fee)}원</Td>
               </Tr>
             ))}
           </Tbody>

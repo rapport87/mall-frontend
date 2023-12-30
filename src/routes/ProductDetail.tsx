@@ -27,6 +27,7 @@ export default function ProductDetail() {
                 name: data.name,
                 price: data.price,
                 sale_price: data.sale_price,
+                shipping_fee : data.shipping_fee,
                 thumbnail: data.thumbnail,
                 quantity: quantity, // 현재 선택된 수량
                 // 필요한 나머지 상품 정보 추가

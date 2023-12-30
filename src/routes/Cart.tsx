@@ -31,6 +31,7 @@ function Cart() {
         name: cartItem.product.name,
         price: cartItem.product.price,
         sale_price: cartItem.product.sale_price,
+        shipping_fee: cartItem.product.shipping_fee,
         thumbnail: cartItem.product.thumbnail,
         quantity: cartItem.quantity
       }));
@@ -61,7 +62,6 @@ function Cart() {
     if (error) return <Box>An error has occurred: {error.message}</Box>;
 
     const formatPrice = (price: number | undefined) => {
-        // price가 undefined 또는 null일 경우, 0으로 처리
         if (price === undefined || price === null) {
           price = 0;
         }

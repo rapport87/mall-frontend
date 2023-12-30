@@ -159,6 +159,8 @@ export const createOrder = async (orderData: {
   zip_code: number;
   order_request: string;
   order_items:  IOrderItem[];
+  payment: number;
+  shipping_fee : number;
 }) => {
   try {
     const response = await instance.post("orders/create/", orderData, {

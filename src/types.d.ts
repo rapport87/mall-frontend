@@ -4,6 +4,7 @@ export interface IProductList {
     name : string;
     price : number;
     sale_price : number;
+    shipping_fee : number;
     thumbnail : string;
     category : string;
     display_status : string;
@@ -29,7 +30,15 @@ export interface IProductList {
     first_product_thumbnail: string;
     total_product_price: number;
     created_at: string; 
+    recipient_name : string;
+    recipient_tel : string;    
+    address : string;
+    address_detail : string;
+    zip_code : string;
+    order_request : string;
     order_items: IOrderHistoryProducts[];
+    order_payment : IOrderPayment[];
+    shipping_fee : number;
   }
 
   export interface IOrderHistoryProducts{
@@ -38,6 +47,11 @@ export interface IProductList {
     sale_price : number;
     quantity : number;
     thumbnail : string;
+  }
+
+  export interface IOrderPayment{
+    payment : number;
+    payment_display : string;
   }
 
   export interface IUser {
@@ -60,6 +74,7 @@ export interface IProductList {
     name: string;
     price: number;
     sale_price: number;
+    shipping_fee : number;
     thumbnail: string;
   }
   
