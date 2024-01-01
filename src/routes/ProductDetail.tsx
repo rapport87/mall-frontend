@@ -7,11 +7,11 @@ import { Box, Grid, Image, VStack, useColorModeValue, Text, Button, HStack, Cent
 import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetail() {
-    const { productPk } = useParams();
-    const productPkNumber = productPk ? parseInt(productPk) : null; // productPk를 숫자로 변환
+    const { productId } = useParams();
+    const productIdNumber = productId ? parseInt(productId) : null; // productId를 숫자로 변환
 
     const { isLoading, data } = useQuery<IProductDetail>({
-        queryKey: ["products", productPkNumber],
+        queryKey: ["products", productIdNumber],
         queryFn: getProductDetail,
     });
 
@@ -23,7 +23,7 @@ export default function ProductDetail() {
           navigate('/order', {
             state: {
               product: [{
-                id: productPkNumber,
+                id: productIdNumber,
                 name: data.name,
                 price: data.price,
                 sale_price: data.sale_price,
@@ -63,13 +63,13 @@ export default function ProductDetail() {
     };
 
     const addToCart = async () => {
-        if (productPkNumber === null) {
+        if (productIdNumber === null) {
             console.error("Invalid product ID");
             return;
         }
 
         try {
-            const response = await addToCartAPI(productPkNumber, quantity);
+            const response = await addToCartAPI(productIdNumber, quantity);
             console.log("장바구니에 추가됨:", response);
             // ... 나머지 코드 ...
         } catch (error) {

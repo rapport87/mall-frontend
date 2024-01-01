@@ -16,13 +16,23 @@ export const getProducts = async () => {
   }
 };
 
-export const getProductDetail = async ({ queryKey }: QueryFunctionContext) => {
-  const [_, productPk] = queryKey;
+export const getCategoryProducts = async ({queryKey}: QueryFunctionContext) => {
+  const [_, categoryId] = queryKey
   try {
-    const response = await instance.get(`products/${productPk}`);
+    const response = await instance.get(`cate/${categoryId}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching product detail: ${productPk}`, error);
+    console.error("Error fetching products:", error);
+  }
+};
+
+export const getProductDetail = async ({ queryKey }: QueryFunctionContext) => {
+  const [_, productId] = queryKey;
+  try {
+    const response = await instance.get(`products/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching product detail: ${productId}`, error);
   }
 };
 
@@ -38,9 +48,9 @@ export const getOrderHistory = async ({ queryKey }: QueryFunctionContext) => {
 
 
 export const getOrderHistoryDetail = async ({ queryKey }: QueryFunctionContext) => {
-  const [_, username, order_id] = queryKey;
+  const [_, username, orderId] = queryKey;
   try {
-    const response = await instance.get(`orders/${username}/${order_id}`);
+    const response = await instance.get(`orders/${username}/${orderId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching order detail:", error);

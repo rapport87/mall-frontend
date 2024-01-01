@@ -8,6 +8,7 @@ import Order from "./routes/Order";
 import OrderHistory from "./routes/OrderHistory";
 import OrderHistoryDetail from "./routes/OrderHistoryDetail";
 import Cart from "./routes/Cart";
+import Category from "./routes/Category";
 
 const router = createBrowserRouter([
     {
@@ -18,9 +19,13 @@ const router = createBrowserRouter([
             {
                 path: "",
                 element: <Home />
-            },            
+            },      
             {
-                path: "products/:productPk",
+                path: "cate/:categoryId",
+                element: <Category />
+            },                      
+            {
+                path: "products/:productId",
                 element: <ProductDetail />
             },
             {

@@ -28,6 +28,8 @@ export default function Product({
   pk, name, price, salePrice, thumbnail, displayStatus,
 }:IProductProps) {
   const gray = useColorModeValue("gray.600", "gray.300");
+
+  console.log(pk, name, price, salePrice, thumbnail, displayStatus);
   return (
     <VStack alignItems={"flex-start"}>
       <Link to={`../products/${pk}`}>
