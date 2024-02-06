@@ -45,7 +45,7 @@ export default function Home() {
       ) : null}
       {data?.map((product) => (
         <Product
-          key={product.id}
+          key={product.pk}
           pk={product.pk}
           name={product.name}
           price={product.price}

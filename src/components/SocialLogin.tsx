@@ -1,10 +1,13 @@
 import { FaComment, FaGithub } from "react-icons/fa";
 import { Box, Button, Divider, HStack, Text, VStack } from "@chakra-ui/react";
 
-export default function SocialLogin() {
+export default function SocialLogin() {  
   const kakaoParams = {
     client_id: "639900a71d5784dda0382e93d7ba14be",
-    redirect_uri: "http://127.0.0.1:3000/social/kakao",	
+    redirect_uri: 
+      process.env.NODE_ENV === "development" 
+        ? "http://127.0.0.1:3000/social/kakao"
+        : "https://learninglab.co.kr:60000/social/kakao",        
     response_type: "code",
   };
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?${new URLSearchParams(

@@ -105,7 +105,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
                   variant={"filled"}                 
                   placeholder="ID"                  
                   {...register("name", {
-                    required: "name is necessary!",
+                    required: "ID는 필수입니다!",
                   })}
                 />
               </InputGroup>
@@ -121,7 +121,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
                 variant={"filled"} 
                 placeholder="Email"
                 {...register("email", {
-                    required: "email is necesasry!",
+                    required: "E-mail 주소는 필수입니다!",
                 })}                
                 />
               </InputGroup>
@@ -137,7 +137,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
                 variant={"filled"} 
                 placeholder="Username"
                 {...register("username", {
-                    required: "username is necesasry!",
+                    required: "사용자 이름은 필수입니다!",
                 })}
                 />
               </InputGroup>
@@ -151,11 +151,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
                 />
                 <Input 
                 variant={"filled"} 
+                type="password"
                 placeholder="Password" 
                 {...register("password", {
-                    required: "password is necessary!",
+                    required: "비밀번호는 필수입니다!",
                 })}                
-                />
+                />           
               </InputGroup>
             </VStack>
             <Button

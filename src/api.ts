@@ -3,7 +3,10 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/",
+  baseURL: 
+    process.env.NODE_ENV === "development" 
+    ? "http://127.0.0.1:8000/api/v1/"
+    : "https://learninglab.co.kr:15152/api/v1",
   withCredentials: true,
 });
 
@@ -82,7 +85,7 @@ export const userSignUp = async ({
   try {
     const response = await instance.post(
       `/users/signup`, 
-    { name, email, username, password }, 
+    { name, email, username, password, }, 
     {
       headers: {
         "X-CSRFToken" : Cookie.get("csrftoken") || "",
