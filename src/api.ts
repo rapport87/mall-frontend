@@ -15,7 +15,7 @@ export const getProducts = async () => {
     const response = await instance.get("products/");
     return response.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("상품을 불러오던 중 오류가 발생하였습니다 :", error);
   }
 };
 
@@ -25,7 +25,7 @@ export const getCategoryProducts = async ({queryKey}: QueryFunctionContext) => {
     const response = await instance.get(`cate/${categoryId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("상품을 불러오던 중 오류가 발생하였습니다 :", error);
   }
 };
 
@@ -35,7 +35,7 @@ export const getProductDetail = async ({ queryKey }: QueryFunctionContext) => {
     const response = await instance.get(`products/${productId}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching product detail: ${productId}`, error);
+    console.error(`상품 상세페이지를 불러오던 중 오류가 발생하였습니다 : ${productId}`, error);
   }
 };
 
@@ -45,7 +45,7 @@ export const getOrderHistory = async ({ queryKey }: QueryFunctionContext) => {
     const response = await instance.get(`orders/${username}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    console.error("주문을 불러오던 중 오류가 발생하였습니다 : ", error);
   }
 };
 
@@ -56,7 +56,7 @@ export const getOrderHistoryDetail = async ({ queryKey }: QueryFunctionContext) 
     const response = await instance.get(`orders/${username}/${orderId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching order detail:", error);
+    console.error("주문을 불러오던 중 오류가 발생하였습니다 : ", error);
   }
 };
 
@@ -65,7 +65,7 @@ export const getProfile = async () => {
     const response = await instance.get(`users/profile`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    
   }
 };
 
@@ -76,43 +76,42 @@ export interface IuserSignUpProp{
   password : string;
 };
 
-export const userSignUp = async ({
-  name,
-  email,
-  username,
-  password,
-}:IuserSignUpProp) => {
+export const userSignUp = async ({ username, password, email, name }: IuserSignUpProp) => {
+    try {
+        const response = await instance.post(
+            "/users/signup",
+            { username, password, email, name },
+            {
+                headers: {
+                    "X-CSRFToken": Cookie.get("csrftoken") || "",
+                },
+            }
+        );
+        return response.data; 
+    } catch (error) {
+        console.error("회원가입중 오류가 발생하였습니다 :", error);
+        throw error; 
+    }
+};
+
+
+    
+export const kakaoLogin = async (code: string) => {
   try {
     const response = await instance.post(
-      `/users/signup`, 
-    { name, email, username, password, }, 
-    {
-      headers: {
-        "X-CSRFToken" : Cookie.get("csrftoken") || "",
-      },
-    });
-    return response.data;
-  } catch (error){
-    console.error("Error during Sign up:", error);
+      `/users/kakao`,
+      { code },
+      {
+        headers: {
+          "X-CSRFToken": Cookie.get("csrftoken") || "",
+        },
+      }
+    );
+    return response.status;
+  } catch (error) {
+    console.error("카카오 로그인중 오류가 발생하였습니다 :", error);
   }
-}
-    
-  export const kakaoLogin = async (code: string) => {
-    try {
-      const response = await instance.post(
-        `/users/kakao`,
-        { code },
-        {
-          headers: {
-            "X-CSRFToken": Cookie.get("csrftoken") || "",
-          },
-        }
-      );
-      return response.status;
-    } catch (error) {
-      console.error("Error during Kakao login:", error);
-    }
-  };
+};
 
 export const logOut = async () => {
   try {
@@ -123,7 +122,7 @@ export const logOut = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error during log out:", error);
+    console.error("로그아웃중 오류가 발생하였습니다 :", error);
   }
 };
 
@@ -183,7 +182,7 @@ export const createOrder = async (orderData: {
     });
     return response.data;
   } catch (error) {
-    console.error("Error creating order:", error);
+    console.error("주문 생성중 오류가 발생하였습니다 :", error);
     throw error; 
   }
 };    
@@ -193,7 +192,7 @@ export const getCarts = async () => {
     const response = await instance.get("carts/");
     return response.data;
   } catch (error) {
-    console.error("Error fetching carts:", error);
+    console.error("장바구니를 불러오던중 오류가 발생하였습니다 :", error);
   }
 };
 
@@ -210,17 +209,14 @@ export const addToCart = async (productPk: number, quantity: number) => {
     alert("상품이 장바구니에 추가되었습니다");
     return response.data;
   } catch (error) {
-    // AxiosError 타입으로 타입 가드를 사용
     if (axios.isAxiosError(error) && error.response) {
       if (error.response.status === 400) {
         alert(error.response.data.message);
       } else {
-        // 기타 HTTP 오류 처리
-        console.error("Error adding to cart:", error.response);
+        console.error("상품을 추가하던 중 오류가 발생하였습니다 :", error.response);
       }
     } else {
-      // Axios 오류가 아닌 기타 오류 처리
-      console.error("Error adding to cart:", error);
+      console.error("상품을 추가하던 중 오류가 발생하였습니다 :", error);
     }
     throw error;
   }
@@ -236,7 +232,7 @@ export const deleteCartItem = async (cartItemId: number) => {
     alert("상품이 장바구니에서 삭제되었습니다");
     return response.data;
   } catch (error) {
-    console.error("Error deleting cart item:", error);
+    console.error("상품을 삭제하던 중 오류가 발생하였습니다 :", error);
     throw error;
   }
 };
@@ -250,7 +246,7 @@ export const clearCart = async () => {
       }
     });
   } catch (error) {
-    console.error("Error clearing cart:", error);
+    console.error("장바구니를 비우던 중 오류가 발생하였습니다 :", error);
     throw error;
   }
 };
