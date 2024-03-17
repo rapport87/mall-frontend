@@ -29,24 +29,14 @@ export default function Product({
 }:IProductProps) {
   const gray = useColorModeValue("gray.600", "gray.300");
 
-  console.log(pk, name, price, salePrice, thumbnail, displayStatus);
+  // console.log(pk, name, price, salePrice, thumbnail, displayStatus);
   return (
     <VStack alignItems={"flex-start"}>
       <Link to={`../products/${pk}`}>
         <Box position="relative" overflow={"hidden"} mb={3} rounded="2xl">
           <Image
-            minH="280"
             src={thumbnail}
           />
-          <Button
-            variant={"unstyled"}
-            position="absolute"
-            top={0}
-            right={0}
-            color="white"
-          >
-            <FaRegHeart size="20px" />
-          </Button>
         </Box>
         <Box>
           <Grid gap={2} templateColumns={"8fr 1fr"}>
