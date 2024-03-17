@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetail() {
     const { productId } = useParams();
-    const productIdNumber = productId ? parseInt(productId) : null; // productId를 숫자로 변환
+    const productIdNumber = productId ? parseInt(productId) : null;
 
     const { isLoading, data } = useQuery<IProductDetail>({
         queryKey: ["products", productIdNumber],
@@ -16,7 +16,7 @@ export default function ProductDetail() {
     });
 
     const [selectedImage, setSelectedImage] = useState<string | undefined>();
-    const [quantity, setQuantity] = useState(1); // 수량 상태
+    const [quantity, setQuantity] = useState(1); 
     const navigate = useNavigate();
     const handlePurchaseClick = () => {
         if (data) {
@@ -29,15 +29,13 @@ export default function ProductDetail() {
                 sale_price: data.sale_price,
                 shipping_fee : data.shipping_fee,
                 thumbnail: data.thumbnail,
-                quantity: quantity, // 현재 선택된 수량
-                // 필요한 나머지 상품 정보 추가
+                quantity: quantity, 
               }]
             }
           });
         }
       };
 
-    // 데이터가 로드되었을 때 메인 이미지를 선택합니다.
     useEffect(() => {
         if (data) {
             setSelectedImage(data.thumbnail);
@@ -48,16 +46,14 @@ export default function ProductDetail() {
 
     const discountRate = data ? Math.round(((data.price - data.sale_price) / data.price) * 100) : 0;
 
-    const isOutOfStock = data?.stock === 0; // 재고 여부 체크
+    const isOutOfStock = data?.stock === 0;
 
     if (isLoading) {
         return <Center mt={10}><Spinner /></Center>;
     }
 
-    // 메인 이미지를 작은 이미지 목록에 추가합니다.
     const allImages = [data?.thumbnail, ...(data?.images.map(img => img.photo) || [])];
 
-    // 가격 포매팅 함수
     const formatPrice = (price: number) => {
       return new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(price);
     };
@@ -71,10 +67,8 @@ export default function ProductDetail() {
         try {
             const response = await addToCartAPI(productIdNumber, quantity);
             console.log("장바구니에 추가됨:", response);
-            // ... 나머지 코드 ...
         } catch (error) {
             console.error("장바구니에 추가하는데 실패했습니다.", error);
-            // ... 나머지 코드 ...
         }
     };
 
@@ -92,7 +86,8 @@ export default function ProductDetail() {
                             borderRadius="lg"
                             objectFit={"cover"}
                             src={selectedImage}
-                            boxSize="600px"
+                            maxW="500px"
+                            maxH="500px"
                         />
                         <HStack spacing={2} mt={4} justifyContent="center">
                             {allImages.map((image, index) => (
