@@ -63,17 +63,25 @@ export default function Header() {
   };
   
   const menuItems: MenuItemType[] = [
+    { name: "전체상품", link: "/" },    
     { 
-      name: "치킨", 
-      link: "/cate/0", 
+      name: "국물", 
+      link: "/cate/6", 
       subMenu: [
-        { name: "양념치킨", link: "/cate/chicken/spicy" },
-        { name: "후라이드치킨", link: "/cate/chicken/fried" }
+        { name: "찌개류", link: "/cate/11" },
+        { name: "탕류", link: "/cate/10" }
       ] 
     },
-    { name: "피자", link: "/cate/1" },
-    { name: "라면", link: "/cate/2" },
-    { name: "볶음밥", link: "/cate/3" }
+    { 
+      name: "분식", 
+      link: "/cate/7", 
+      subMenu: [
+        { name: "돈까스", link: "/cate/5" },
+        { name: "떡볶이", link: "/cate/8" },
+        { name: "만두", link: "/cate/9" }
+      ] 
+    },
+    { name: "치킨", link: "/cate/2" },
   ];
 
   const [activeSubMenu, setActiveSubMenu] = useState<MenuItemType | null>(null);

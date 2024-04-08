@@ -43,10 +43,10 @@ export default function Product({
             <Text display={"block"} as="b" noOfLines={1} fontSize="md">
               {name}
             </Text>
-            <HStack spacing={1} alignItems="center">
+            {/* <HStack spacing={1} alignItems="center">
               <FaStar size={12} />
               <Text fontSize={"sm"}>5.0</Text>
-            </HStack>
+            </HStack> */}
           </Grid>
         </Box>
         <Box>

@@ -91,7 +91,8 @@ export default function ProductDetail() {
                             borderRadius="lg"
                             objectFit={"cover"}
                             src={selectedImage}
-                            boxSize="600px"
+                            maxW="500px"
+                            maxH="500px"
                         />
                         <HStack spacing={2} mt={4} justifyContent="center">
                             {allImages.map((image, index) => (
