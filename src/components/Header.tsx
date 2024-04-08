@@ -54,7 +54,7 @@ export default function Header() {
     });
   };  
 
-  const isMobile = useBreakpointValue({ base: true, md: false });  
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   type MenuItemType = {
     name: string;

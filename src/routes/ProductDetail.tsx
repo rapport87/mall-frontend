@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProductDetail, addToCart as addToCartAPI } from "../api";
 import { IProductDetail } from "../types";
 import { useParams } from "react-router-dom";
-import { Box, Grid, Image, VStack, useColorModeValue, Text, Button, HStack, Center, Spinner, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Divider, Alert, AlertIcon } from "@chakra-ui/react";
+import { Box, Grid, Image, VStack, useColorModeValue, Text, Button, HStack, Center, Spinner, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Divider, Alert, AlertIcon, useBreakpointValue } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetail() {
@@ -14,7 +14,7 @@ export default function ProductDetail() {
         queryKey: ["products", productIdNumber],
         queryFn: getProductDetail,
     });
-
+    const isMobile = useBreakpointValue({ base: true, md: false });
     const [selectedImage, setSelectedImage] = useState<string | undefined>();
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
@@ -80,10 +80,10 @@ export default function ProductDetail() {
 
     return (
         <Center mt={10}>
-            <VStack maxWidth="100%" w="full" gap={6}>
+            <VStack maxWidth="1000px" w="full" gap={6}>
                 <Grid
                     templateColumns={{ base: "1fr", md: "3fr 2fr" }}
-                    maxWidth="100%"
+                    maxWidth="1000px"
                     gap={6}
                 >
                     <Box>
@@ -91,8 +91,7 @@ export default function ProductDetail() {
                             borderRadius="lg"
                             objectFit={"cover"}
                             src={selectedImage}
-                            maxW="500px"
-                            maxH="500px"
+                            boxSize={ isMobile ? "auto" : "500px"}
                         />
                         <HStack spacing={2} mt={4} justifyContent="center">
                             {allImages.map((image, index) => (
@@ -176,9 +175,8 @@ export default function ProductDetail() {
                         </VStack>                    
                     </VStack>         
                 </Grid>
-
+                <Divider width="90%" my={6} sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
                 <Box width="full">
-                    <Divider my={6} sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
                     <Box p={5}>
                         <Center>
                             <div dangerouslySetInnerHTML={{ __html: data?.detailed_description || "" }}></div>

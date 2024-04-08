@@ -109,7 +109,7 @@ const mutation = useMutation(createOrder, {
 
         <Box width="full">
           <FormLabel fontSize={'x-large'}>주문상품</FormLabel>
-          <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+          <Divider w="90%" sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
             <Table variant="simple">
               <Thead>
                 <Tr>
@@ -135,7 +135,7 @@ const mutation = useMutation(createOrder, {
                 ))}
               </Tbody>
             </Table>
-            <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+            <Divider w="90%" sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
           </Box>
           <Box width="full">
             <HStack spacing={10} justifyContent="space-between">
@@ -152,7 +152,7 @@ const mutation = useMutation(createOrder, {
           </Box>
 
           <FormLabel mt={"10"} fontSize={'x-large'}>받는분 정보</FormLabel>
-            <Divider mb={"3"} sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+            <Divider w="90%" mb={"3"} sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
             <InputGroup>
               <InputLeftAddon children="이름" width={inputAddonWidth} />
               <Input 
@@ -196,7 +196,7 @@ const mutation = useMutation(createOrder, {
             </InputGroup>            
             <Box mt={"10"} w="full">
               <FormLabel fontSize={'x-large'}>결제방법</FormLabel>
-              <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+              <Divider w="90%" sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
               <RadioGroup name="payment" mt={"3"} defaultValue="bankTransfer">
                 <Radio {...register("payment")} value="1">무통장입금</Radio>
                 <Radio {...register("payment")} ml={"5"} value="2">신용카드</Radio>
@@ -205,7 +205,7 @@ const mutation = useMutation(createOrder, {
             </Box>            
           </FormControl>
         </Box>
-        <Divider sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
+        <Divider w="90%" sx={{borderColor: "gray.300" , borderWidth: "1px"}} />
 
 
 
